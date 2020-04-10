@@ -4,31 +4,28 @@ const morgan = require("morgan");
 const cors = require("cors");
 const helmet = require("helmet");
 const { NODE_ENV } = require("./config");
-const bookmarkRouter = require("./bookmarks/bookmark-router");
-//const validateToken = require("./validate-token");
+const bookmarksRouter = require("./bookmarks/bookmark-router");
+const validateToken = require("./validate-token");
 const errorHandler = require("./errorHandler");
-const BookmarksService = require("../src/bookmarks-service");
 
 const app = express();
 
-const morganOption = NODE_ENV === "production" ? "tiny" : "common";
+app.use(
+  morgan(NODE_ENV === "production" ? "tiny" : "common", {
+    skip: () => NODE_ENV === "test",
+  })
+);
 
-app.use(morgan(morganOption));
-app.use(helmet());
 app.use(cors());
+app.use(helmet());
 
-//app.use(validateToken);
+app.use(validateToken);
 
-app.use(bookmarkRouter);
+app.use(bookmarksRouter);
 
-app.get("/bookmarks", (req, res) => {
-  const knexInstance = req.app.get("db");
-  BookmarksService.getAllBooks(knexInstance)
-    .then((bookmarks) => {
-      res.json(bookmarks);
-    })
-    .catch(next);
-});
+app.get("/bookmarks", bookmarksRouter);
+app.get("/bookmarks/:bookmarks_id", bookmarksRouter);
+app.post("/bookmarks", bookmarksRouter);
 
 app.get("/", (req, res) => {
   res.send("Hello, world!");

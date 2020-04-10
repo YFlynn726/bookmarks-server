@@ -4,22 +4,22 @@ const BookmarksService = {
   getAllBookmarks(knex) {
     return knex.select("*").from("bookmarks");
   },
-  insertBookmarks(knex, newBookmarks) {
+  getById(knex, id) {
+    return knex.from("bookmarks").select("*").where("id", id).first();
+  },
+  insertBookmark(knex, newBookmark) {
     return knex
-      .insert(newBook)
+      .insert(newBookmark)
       .into("bookmarks")
       .returning("*")
       .then((rows) => {
         return rows[0];
       });
   },
-  getById(knex, id) {
-    return knex.from("bookmarks").select("*").where("id", id).first();
-  },
-  deleteBookmarks(knex, id) {
+  deleteBookmark(knex, id) {
     return knex("bookmarks").where({ id }).delete();
   },
-  updateBookmarks(knex, id, newBookmarkFields) {
+  updateBookmark(knex, id, newBookmarkFields) {
     return knex("bookmarks").where({ id }).update(newBookmarkFields);
   },
 };
