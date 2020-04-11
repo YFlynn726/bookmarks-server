@@ -16,10 +16,10 @@ app.use(
   })
 );
 
+app.use(validateToken);
+
 app.use(cors());
 app.use(helmet());
-
-app.use(validateToken);
 
 app.use(bookmarksRouter);
 
