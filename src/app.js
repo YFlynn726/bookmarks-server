@@ -16,16 +16,15 @@ app.use(
   })
 );
 
-app.use(validateToken);
-
 app.use(cors());
 app.use(helmet());
+app.use(validateToken);
 
-app.use(bookmarksRouter);
+app.use("/api/bookmarks", bookmarksRouter);
 
-app.get("/bookmarks", bookmarksRouter);
-app.get("/bookmarks/:bookmarks_id", bookmarksRouter);
-app.post("/bookmarks", bookmarksRouter);
+// app.get("/bookmarks", bookmarksRouter);
+// app.get("/bookmarks/:bookmarks_id", bookmarksRouter);
+// app.post("/bookmarks", bookmarksRouter);
 
 app.get("/", (req, res) => {
   res.send("Hello, world!");
