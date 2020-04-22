@@ -7,5 +7,8 @@ module.exports = {
   //     "postgres://dunder_mifflin@localhost:5432/bookmarks",
   DATABASE_URL:
     process.env.DATABASE_URL ||
-    "postgresql://dunder_mifflin@localhost/bookmarks",
+    "postgres://dunder_mifflin@localhost:5432/bookmarks",
+  TEST_DATABASE_URL:
+    process.env.TEST_DATABASE_URL ||
+    "postgresql://dunder_mifflin@localhost/bookmarks-test",
 };
